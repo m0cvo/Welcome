@@ -1,0 +1,89 @@
+﻿@page
+@model Welcome.Pages.WelcomeModel
+@{
+    //ViewData is weakly typed as a dictionary using key-data pairs.
+    //the pageModel must be declared /injected before it can be used.
+    ViewData["Title"] = "Welcome";
+
+    //Below the ViewData you can insert any C# that may be used in the 
+    //rest of the page's html.
+    var dayPeriod = "morning";
+    if(DateTime.Now.Hour >= 12){ dayPeriod = "afternoon"; }
+    if(DateTime.Now.Hour >= 18){ dayPeriod = "evening"; }
+}
+
+@*set a page heading*@
+<h1>Welcome</h1>
+<p>It is @dayPeriod on @DateTime.Now.ToShortDateString()</p>
+
+<p class="justify-content-evenly">
+    Each Razor page consists of both C# and HTML code, hence the .cshtml suffix.
+    Each page also has a corresponding page model suffixed by .cshtml.cs in which 
+    you can provide any classes that may be used by the functions used in your page.
+</p>
+<p class="justify-content-evenly">
+    Within the code block any C# functions should be preceded with an at symbol.  Let's 
+    proceed by adding a function providing an unordered list.  It should be noted that all
+    C# will be rendered as html when the application is published or run.
+</p>
+@functions {
+    public class Option
+    {
+        public string Name  { get; set; }
+        public string Type { get; set; }
+    }
+
+    List<Option> options = new List<Option>
+    {
+        new Option {Name = "Cow", Type = "Animal"},
+        new Option {Name = "Rose", Type = "Plant"},
+        new Option {Name = "Bus", Type = "Vehicle"},
+        new Option {Name = "Car", Type = "Vehicle"},
+        new Option {Name = "Hebe", Type = "Plant"}
+    };
+}
+
+@{
+    void ThisUnorderedListTemplate(List<Option> options, string style )
+    {
+        <ul>
+        @foreach(var option in options)
+            {
+                <li class="@(option.Name == "Cow" ? style : null)">@option.Name</li>
+            }
+        </ul>
+    }
+}
+@{
+    ThisUnorderedListTemplate(options, "active");
+}
+
+@foreach (var option in options)
+{
+    if (option.Type == "Animal")
+    {
+        <text>
+            Type: @option.Type<br />
+            Name: @option.Name
+        </text>
+    }
+}
+
+<br />
+
+@*Now we can provide a form to demonstrate the use of
+the classes outlined in the page model.*@
+<div class="col">
+    <form method="post" asp-page-handler="Search">
+        <p>Search</p>
+        <input name="searchFor" />
+        <button>Search</button>
+    </form>
+
+    <form method="post" asp-page-handler="Register">
+        <p><br />To register please enter your e-mail:</p>
+        <input name="email" />
+        <button>Register</button>
+    </form>
+</div>
+
