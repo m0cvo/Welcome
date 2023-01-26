@@ -18,7 +18,7 @@
 
 <p class="justify-content-evenly">
     Each Razor page consists of both C# and HTML code, hence the .cshtml suffix.
-    Each page also has a corresponding page model suffixed by .cshtml.cs in which 
+    Each page also has a corresponding page model suffixed by .cshtml.cs (accessed by using the arrow to the left of the page name in solution explorer) in which 
     you can provide any classes that may be used by the functions used in your page.
 </p>
 <p class="justify-content-evenly">
@@ -63,8 +63,8 @@
     if (option.Type == "Animal")
     {
         <text>
-            Type: @option.Type<br />
-            Name: @option.Name
+            Name: @option.Name<br />
+            Type: @option.Type<br />           
         </text>
     }
 }
